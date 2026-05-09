@@ -1,0 +1,44 @@
+//basic commads
+
+restart router		curl -X POST http://192.168.1.1/restart
+					curl -X POST http://192.168.0.1/restart
+	(linux base router)
+					sudo systemctl restart networking
+					sudo reboot
+
+
+list saved n/ws			nmcli connection show
+
+currently connected		nmcli device wifi show-password
+
+specific n/w		nmcli connection show <network-name>
+
+
+suspend-to-idle		systemctl suspend
+
+suspend-to-RAM		echo deep | sudo tee /sys/power/mem_sleep
+					cat /sys/power/mem_sleep
+
+
+
+
+
+
+//shortcuts to remeber
+
+terminal	Meta + T 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
