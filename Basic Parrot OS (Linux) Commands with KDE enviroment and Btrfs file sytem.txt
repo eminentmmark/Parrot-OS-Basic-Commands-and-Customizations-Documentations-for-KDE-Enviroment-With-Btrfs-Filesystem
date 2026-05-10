@@ -13,18 +13,46 @@ restart router		curl -X POST http://192.168.1.1/restart
 
 list saved n/ws			nmcli connection show
 
-currently connected		nmcli device wifi show-password
+currently connected		nmcli dev wifi show-password
 
-specific n/w		nmcli connection show <network-name>
+specific n/w			nmcli connection show <network-name>
+
+
+//May work. Not a guarantee for the dual band adapters
+create hotspot wirh shared mode			nmcli connection add type wifi ifname wlan0 con-name Hotspot autoconnect no ssid Devine
+						{replace <wlan0> with interface from running "iw dev" bash command}
+
+						// configure AP mode
+						nmcli connection modify Hotspot 802-11-wireless.mode ap 802-11-wireless.band bg ipv4.method shared
+
+						//set security (password)
+						nmcli connection modify Hotspot wifi-sec.key-mgmt wpa-psk
+						nmcli connection modify Hotspot wifi-sec.psk "maranatha"
+						
+
+create hotspot (without dual band)		nmcli device wifi hotspot ssid BlairHotspot password "StrongPassword123"
+
+verify hotspot  		nmcli connection show --active
+
+stop hotspot            nmcli connection down Hotspot
+
+reconnect hotspot       nmcli connection up Hotspot
+
+delete old hotspot      nmcli connection delete Hotspot
 
 
 suspend-to-idle		systemctl suspend
 
-suspend-to-RAM		echo deep | sudo tee /sys/power/mem_sleep
+suspend-to-RAM		# Temporarily switch to deep sleep mode (until nano is updated)
+					echo deep | sudo tee /sys/power/mem_sleep
+					
 					cat /sys/power/mem_sleep
+					
+					sudo update-grub
+					
+					sudo reboot
 	
 hibernate			systemctl hibernate
-
 
 hibernate function		# Create a Btrfs-compatible swap file
 
