@@ -1,0 +1,20 @@
+
+
+// basic linux (directory) navigation commands
+
+
+go into a dir		cd folder_name
+
+go back 1 dir		cd ..
+
+back 2 levels		cd ../..
+
+go to home dir		cd ~	or		cd
+
+go to previous dir		cd -
+
+go to root dir		cd /
+
+see where u r		pwd
+
+see contents		ls

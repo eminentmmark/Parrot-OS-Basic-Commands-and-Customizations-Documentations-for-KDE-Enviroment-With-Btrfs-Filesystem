@@ -1,0 +1,11 @@
+//basic shortcuts for:
+	Parrot OS (Debian-based)
+	KDE desktop environment
+	Btrfs filesystem
+
+
+//shortcuts to remember (some of these are customs and system defaults)
+
+terminal	Meta + T 
+
+sticky note		Meta + S
