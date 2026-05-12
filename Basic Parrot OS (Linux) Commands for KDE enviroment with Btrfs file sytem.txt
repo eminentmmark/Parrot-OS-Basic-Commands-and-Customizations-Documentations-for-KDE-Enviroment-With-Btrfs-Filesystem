@@ -58,7 +58,7 @@ hibernate function		# Create a Btrfs-compatible swap file
 
 						sudo truncate -s 0 /swapfile
 						sudo chattr +C /swapfile
-						sudo dd if=/dev/zero of=/swapfile bs=1M count=8192 status=progress
+						sudo dd if=/dev/zero of=/swapfile bs=1M count=32642 status=progress
 						
 						
 						# Secure the swap file
@@ -77,12 +77,12 @@ hibernate function		# Create a Btrfs-compatible swap file
 						echo '/swapfile none swap defaults 0 0' | sudo tee -a /etc/fstab
 						
 						
-						# Get the filesystem UUID
+						# Get the filesystem UUID (that will be used in the nano file)
 						
 						findmnt -no UUID -T /swapfile
 					
 						
-						# Get the Btrfs swapfile resume offset
+						# Get the Btrfs swapfile resume offset (that will be used in the nano file)
 						
 						sudo btrfs inspect-internal map-swapfile -r /swapfile
 					
@@ -91,7 +91,7 @@ hibernate function		# Create a Btrfs-compatible swap file
 						sudo nano /etc/default/grub
 						
 						
-						//the replace:
+						//then replace:
 						
 						GRUB_CMDLINE_LINUX_DEFAULT="quiet splash"
 						

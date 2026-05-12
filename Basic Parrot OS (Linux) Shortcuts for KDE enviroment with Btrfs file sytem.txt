@@ -6,6 +6,10 @@
 
 //shortcuts to remember (some of these are customs and system defaults)
 
-terminal	Meta + T 
+terminal		Meta+T 
 
-sticky note		Meta + S
+sticky note		Meta+`
+
+dictionaty		Meta+Ctrl+Alt
+
+clipboard		Meta+V
