@@ -51,7 +51,8 @@ suspend-to-RAM		# Temporarily switch to deep sleep mode (until nano is updated)
 					sudo update-grub
 					
 					sudo reboot
-	
+
+
 hibernate			systemctl hibernate
 
 hibernate function		# Create a Btrfs-compatible swap file
@@ -118,6 +119,43 @@ hibernate function		# Create a Btrfs-compatible swap file
 						//all set
 
 
+// backups with rsync
+
+
+						# create backup location
+
+						mkdir -p /mnt/backup/system-config		{or u can use		mkdir -p /media/blair/backup/system-config}
+						
+						
+						# basic system config backup
+
+						sudo rsync -aAXv /etc /home /root /mnt/backup/system-config
+
+
+						# Backup only configuration files (lighter)
+
+						sudo rsync -a /etc /home/blair/.config /mnt/backup/system-config
+
+						
+						# Exclude unnecessary files (recommended)
+						
+						sudo rsync -aAXv \
+						--exclude={"/dev/*","/proc/*","/sys/*","/tmp/*","/run/*","/mnt/*","/media/*","/lost+found"} \
+						/ /mnt/backup/system-config
+						
+						
+						# Verify backup integrity
+						
+						ls -lah /mnt/backup/system-config
+						
+						
+						# restore later (usually for live USB)
+						
+						sudo rsync -aAXv /mnt/backup/system-config/ mnt/
+						
+						
+						sudo update-grub
+						sudo grub-install
 
 
 
