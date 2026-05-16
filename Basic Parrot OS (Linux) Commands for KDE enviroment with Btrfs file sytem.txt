@@ -118,7 +118,189 @@ hibernate function		# Create a Btrfs-compatible swap file
 						
 						//all set
 
+						
 
+						
+						
+// setting up printers (epson)
+
+		# Install printing support packages (Most Debian-based systems use CUPS for printing)
+		
+			sudo apt install cups cups-client printer-driver-escpr system-config-printer -y
+		
+		# for scanner support
+		
+			sudo apt install sane-airscan sane-utils xsane -y
+		
+		# Enable and start the printing service
+		
+			sudo systemctl enable cups
+			sudo systemctl start cups
+		
+			# check status (expected output something like 'active (running)')
+			
+			systemctl status cups
+			
+		# add the user to the printer admin group
+		
+			sudo usermod -aG lpadmin $USER
+		
+		# Connect the Epson L3250
+		Option A — USB Setup (Recommended First)
+		Turn on the printer.
+		Connect it via USB.
+		Run:
+			lsusb
+		
+		(expected output a list of [Epson] printers)
+		
+		Option B — Wi-Fi Setup
+		
+		Before Linux can discover it:
+		
+		Connect the printer to the same Wi-Fi network as the laptop.
+		Use the Epson Smart Panel app from a phone if needed for initial Wi-Fi configuration.
+		
+		# After it joins Wi-Fi, continue below.
+		
+			Open the Linux printer manager
+		
+			In KDE:
+		
+			Open Settings
+			Go to Printers
+		
+			OR run:
+		
+				system-config-printer
+				
+			
+			# Add the printer
+			
+			Linux should automatically detect:
+			
+			Epson L3250 USB
+			OR
+			Epson L3250 Network Printer
+			
+			Click:
+			
+			Add
+			Select the printer
+			Continue
+			
+			If prompted for a driver:
+			
+			Choose:
+			“Epson ESC/P-R”
+			or “Recommended Driver”
+			
+			Finish setup.
+			
+			
+			# Print a test page
+			
+			After setup:
+			
+			Right-click the printer
+			Choose:
+			Properties
+			Print Test Page
+			
+			If the page prints, setup succeeded.
+			
+		
+		// Setup scanning
+		
+			test scanner detection (run):
+				scanimage -L
+		
+			Blair can test scanner detection:
+			
+			run:		
+				scanimage -L
+		
+			(Expected output)
+		
+				device `epson...'
+		
+			For graphical scanning:
+			
+			run:		
+				xsane
+		
+			OR use KDE’s scan utility.
+			
+			
+			# Launch KDE’s scan utility from Terminal
+			
+			run:
+				skanpage
+			
+			If installed, the scanner app opens immediately.
+			
+			If not Installed, run:
+			
+				sudo apt install skanpage -y
+			
+			Then launch (run):
+				skanpage
+						
+
+// system updates (enabling and disabling automatic update)
+
+			# Before major upgrades:
+
+				sudo btrfs subvolume snapshot / /.snapshots/pre-update
+
+			# This gives rollback capability if an update breaks something.
+		
+
+		# Manual major updates + automatic security updates
+
+		This gives:
+			security protection,
+			while keeping control of risky upgrades.
+				
+		
+		# Enable Only Security Auto Updates
+				
+		Install:				
+			sudo apt install unattended-upgrades -y
+				
+		Enable:				
+			sudo dpkg-reconfigure unattended-upgrades
+				
+		Choose:				
+			Yes
+			
+			
+		// Fully Disable Automatic Updates
+			
+		# If u wants full manual control:
+			
+		Stop automatic services:
+			sudo systemctl disable apt-daily.timer
+			sudo systemctl disable apt-daily-upgrade.timer
+			
+		Stop them immediately:			
+			sudo systemctl stop apt-daily.timer
+			sudo systemctl stop apt-daily-upgrade.timer
+			
+			
+		// How to Check if Auto Updates Are Running
+			
+		Run:			
+			systemctl list-timers | grep apt
+			
+		If timers appear, automatic updates are enabled.
+						
+						
+						
+						
+						
+						
+						
 // backups with rsync
 
 

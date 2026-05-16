@@ -8,8 +8,12 @@
 
 terminal		Meta+T 
 
-sticky note		Meta+`
+sticky note		Meta+s
 
 dictionaty		Meta+Ctrl+Alt
 
 clipboard		Meta+V
+
+shutdown menu		ctrl+alt+delete
+
+ad
