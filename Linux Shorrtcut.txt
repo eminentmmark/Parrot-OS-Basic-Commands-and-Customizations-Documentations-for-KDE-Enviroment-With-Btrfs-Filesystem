@@ -16,4 +16,4 @@ clipboard		Meta+V
 
 shutdown menu		ctrl+alt+delete
 
-ad
+Sentence cASE		shift=f3

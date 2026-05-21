@@ -1,0 +1,139 @@
+//basic commands for:
+Parrot OS (Debian-based)
+KDE desktop environment
+Btrfs filesystem
+
+
+// suspend-to-idle		
+        
+        systemctl suspend
+
+// suspend-to-RAM		
+
+        # Temporarily switch to deep sleep mode (until nano is updated)
+
+                echo deep | sudo tee /sys/power/mem_sleep
+                cat /sys/power/mem_sleep
+                sudo update-grub
+                sudo reboot
+                
+
+
+// hibernate			
+
+                systemctl hibernate
+
+        # setup the hibernate function		
+        # Create a Btrfs-compatible swap file
+
+                sudo truncate -s 0 /swapfile
+                sudo chattr +C /swapfile
+                sudo dd if=/dev/zero of=/swapfile bs=1M count=32642 status=progress
+
+
+        # Secure the swap file
+
+                sudo chmod 600 /swapfile
+
+
+        # Format and activate swap
+
+                sudo mkswap /swapfile
+                sudo swapon /swapfile
+
+
+        # Make swap persistent across reboots
+
+                echo '/swapfile none swap defaults 0 0' | sudo tee -a /etc/fstab
+
+
+        # Get the filesystem UUID (that will be used in the nano file)
+
+                findmnt -no UUID -T /swapfile
+
+
+        # Get the Btrfs swapfile resume offset (that will be used in the nano file)
+
+                sudo btrfs inspect-internal map-swapfile -r /swapfile
+
+
+        # Edit GRUB configuration
+
+                sudo nano /etc/default/grub
+
+
+        //then replace:
+
+                GRUB_CMDLINE_LINUX_DEFAULT="quiet splash"
+
+        //with:
+
+                GRUB_CMDLINE_LINUX_DEFAULT="quiet splash resume=UUID=a5850804-64f8-4f76-8f8b-c638cfba5247 resume_offset=8398080"
+
+        //continue with
+
+        # Update GRUB
+
+                sudo update-grub
+
+
+        # Rebuild initramfs (critical final fix)
+
+                sudo update-initramfs -u -k all
+
+
+        # Reboot
+
+                sudo reboot
+
+        //all set
+        
+        
+        
+// system updates (enabling and disabling automatic update)
+
+			# Before major upgrades:
+
+				sudo btrfs subvolume snapshot / /.snapshots/pre-update
+
+			# This gives rollback capability if an update breaks something.
+		
+
+		# Manual major updates + automatic security updates
+
+		This gives:
+			security protection,
+			while keeping control of risky upgrades.
+				
+		
+		# Enable Only Security Auto Updates
+				
+		Install:				
+			sudo apt install unattended-upgrades -y
+				
+		Enable:				
+			sudo dpkg-reconfigure unattended-upgrades
+				
+		Choose:				
+			Yes
+			
+			
+		// Fully Disable Automatic Updates
+			
+		# If u want full manual control:
+			
+		Stop automatic services:
+			sudo systemctl disable apt-daily.timer
+			sudo systemctl disable apt-daily-upgrade.timer
+			
+		Stop them immediately:			
+			sudo systemctl stop apt-daily.timer
+			sudo systemctl stop apt-daily-upgrade.timer
+			
+			
+		// How to Check if Auto Updates Are Running
+			
+		Run:			
+			systemctl list-timers | grep apt
+			
+		If timers appear, automatic updates are enabled.

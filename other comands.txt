@@ -40,86 +40,6 @@ reconnect hotspot       nmcli connection up Hotspot
 
 delete old hotspot      nmcli connection delete Hotspot
 
-
-suspend-to-idle		systemctl suspend
-
-suspend-to-RAM		# Temporarily switch to deep sleep mode (until nano is updated)
-					echo deep | sudo tee /sys/power/mem_sleep
-					
-					cat /sys/power/mem_sleep
-					
-					sudo update-grub
-					
-					sudo reboot
-
-
-hibernate			systemctl hibernate
-
-hibernate function		# Create a Btrfs-compatible swap file
-
-						sudo truncate -s 0 /swapfile
-						sudo chattr +C /swapfile
-						sudo dd if=/dev/zero of=/swapfile bs=1M count=32642 status=progress
-						
-						
-						# Secure the swap file
-						
-						sudo chmod 600 /swapfile
-					
-						
-						# Format and activate swap
-						
-						sudo mkswap /swapfile
-						sudo swapon /swapfile
-					
-						
-						# Make swap persistent across reboots
-						
-						echo '/swapfile none swap defaults 0 0' | sudo tee -a /etc/fstab
-						
-						
-						# Get the filesystem UUID (that will be used in the nano file)
-						
-						findmnt -no UUID -T /swapfile
-					
-						
-						# Get the Btrfs swapfile resume offset (that will be used in the nano file)
-						
-						sudo btrfs inspect-internal map-swapfile -r /swapfile
-					
-						
-						# Edit GRUB configuration
-						sudo nano /etc/default/grub
-						
-						
-						//then replace:
-						
-						GRUB_CMDLINE_LINUX_DEFAULT="quiet splash"
-						
-						//with:
-						
-						GRUB_CMDLINE_LINUX_DEFAULT="quiet splash resume=UUID=a5850804-64f8-4f76-8f8b-c638cfba5247 resume_offset=8398080"
-						
-						//continue with
-						
-						# Update GRUB
-						
-						sudo update-grub
-						
-						
-						# Rebuild initramfs (critical final fix)
-						
-						sudo update-initramfs -u -k all
-						
-						
-						# Reboot
-						
-						sudo reboot
-						
-						//all set
-
-						
-
 						
 						
 // setting up printers (epson)
@@ -215,9 +135,8 @@ hibernate function		# Create a Btrfs-compatible swap file
 			test scanner detection (run):
 				scanimage -L
 		
-			Blair can test scanner detection:
+			test scanner detection (run):		
 			
-			run:		
 				scanimage -L
 		
 			(Expected output)
@@ -245,57 +164,126 @@ hibernate function		# Create a Btrfs-compatible swap file
 			
 			Then launch (run):
 				skanpage
+				
 						
 
-// system updates (enabling and disabling automatic update)
+// orca screen reader 
 
-			# Before major upgrades:
-
-				sudo btrfs subvolume snapshot / /.snapshots/pre-update
-
-			# This gives rollback capability if an update breaks something.
-		
-
-		# Manual major updates + automatic security updates
-
-		This gives:
-			security protection,
-			while keeping control of risky upgrades.
-				
-		
-		# Enable Only Security Auto Updates
-				
-		Install:				
-			sudo apt install unattended-upgrades -y
-				
-		Enable:				
-			sudo dpkg-reconfigure unattended-upgrades
-				
-		Choose:				
-			Yes
+			# install orca
 			
-			
-		// Fully Disable Automatic Updates
-			
-		# If u wants full manual control:
-			
-		Stop automatic services:
-			sudo systemctl disable apt-daily.timer
-			sudo systemctl disable apt-daily-upgrade.timer
-			
-		Stop them immediately:			
-			sudo systemctl stop apt-daily.timer
-			sudo systemctl stop apt-daily-upgrade.timer
-			
-			
-		// How to Check if Auto Updates Are Running
-			
-		Run:			
-			systemctl list-timers | grep apt
-			
-		If timers appear, automatic updates are enabled.
+				sudo apt install orca -y
 						
 						
+						
+						
+// Libre office complete language toolkit (run):
+	
+			sudo apt install libreoffice libreoffice-help-en-us hunspell-en-us mythes-en-us hyphen-en-us -y
+			
+			
+			// complete professional toolkit, install this too:
+			
+				sudo apt install libreoffice-java-common default-jre -y
+				
+			// install speech support
+			
+				sudo apt install speech-dispatcher espeak-ng libreoffice-java-common -y
+				
+			// install accesibily intergration 
+			
+				sudo apt install libreoffice-gtk3 -y
+				
+			# libre office themes
+				
+				sudo apt install libreoffice-style-* -y
+				
+				
+				
+// setting up okular and OCR
+			
+			#install okular
+			
+				sudo apt update
+				sudo apt install okular -y
+			
+			# Recommended full support Packages for better compatibility with PDFs, comics, EPUBs, images, and annotations:
+			
+				sudo apt install okular-extra-backends poppler-utils -y
+				sudo apt install okular okular-extra-backends speech-dispatcher espeak-ng qtspeech5-speechd-plugin -y
+				
+			# pdf manipulation tools:
+			
+				sudo apt install pdftk pdfarranger -y
+				
+			# OCR support 
+			
+				sudo apt install tesseract-ocr -y
+				sudo apt install tesseract-ocr ocrmypdf -y
+				
+			# Install Text-to-Speech Packages
+			
+				sudo apt install speech-dispatcher espeak-ng -y
+				
+			// test speech engine directly
+			
+				spd-say "Hello Blair, speech is working."
+				
+			// adjust voice, speed and more
+				
+				nano ~/.config/speech-dispatcher/speechd.conf
+				
+				{
+					# Install higher-quality voices:
+				
+						sudo apt install festival festvox-kallpc16k -y
+				
+					OR:
+				
+						sudo apt install mimetic -y
+				}
+				
+			#
+				
+// setting up root for snapper configurations
+
+			//  verify u are using Btrfs filesystem (run):
+				
+				findmnt -no FSTYPE /
+				
+			# expected resutl Btrfs
+			
+			run:
+				sudo apt install snapper btrfs-progs -y
+				
+			# create proper Btrfs subvolume:
+				
+				sudo btrfs subvolume create /.snapshots
+				
+			# delete folder is it exists
+			
+				sudo rm -rf /.snapshots
+				
+			# Create the Snapper Configuration (run):
+				
+				sudo snapper -c root create-config /
+				
+			# This creates:
+				the root config,
+				snapshot directories,
+				default settings.
+				
+			# change the permissions of the .snapshots directory to root
+			
+				sudo chmod 750 /.snapshots
+				
+			// create a snapshot:
+
+				sudo snapper -c root create --description "First snapshot"
+
+			# List snapshots:
+
+				sudo snapper -c root list
+				
 						
 						
 						
