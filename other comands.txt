@@ -2,6 +2,144 @@
 	Parrot OS (Debian-based)
 	KDE desktop environment
 	Btrfs filesystem
+	
+	
+	
+	
+	
+// repairing broken Packages
+	
+	
+	
+	
+	
+	
+	1. Install BitLocker Support
+	
+	Blair should install:
+	
+	sudo apt install dislocker -y
+	
+	Dislocker allows Linux to unlock BitLocker drives.
+	
+	2. Create Mount Folders
+	sudo mkdir -p /mnt/bitlocker
+	sudo mkdir -p /mnt/windows
+	3. Unlock the BitLocker Drive
+	Using the BitLocker Password
+	
+	Run:
+	
+	sudo dislocker -V /dev/sda1 -u -- /mnt/bitlocker
+	
+	Blair will be prompted for the BitLocker password.
+	
+	OR Using Recovery Key
+	sudo dislocker -V /dev/sda1 -pYOUR-RECOVERY-KEY -- /mnt/bitlocker
+	
+	Example:
+	
+	123456-123456-123456-123456-123456-123456-123456-123456
+	4. Mount the Unlocked Volume
+	
+	After successful unlock:
+	
+	sudo mount -o loop /mnt/bitlocker/dislocker-file /mnt/windows
+	
+	Now Blair can access files in:
+	
+	/mnt/windows
+	5. Open the Mounted Drive
+	
+	Using Dolphin:
+	
+	dolphin /mnt/windows
+	6. Unmount When Finished
+	sudo umount /mnt/windows
+	sudo umount /mnt/bitlocker
+	
+	
+	
+	
+	the main command to find a specific file is:
+	
+	find
+	1. Find a File by Name in a Directory
+	
+	Syntax:
+	
+	find /path/to/directory -name "filename"
+	
+	Example:
+	
+	find ~/Documents -name "report.pdf"
+	
+	This searches:
+	
+	inside Documents
+	
+	for exactly:
+		
+		report.pdf
+		2. Case-Insensitive Search
+		
+		Useful if Blair is unsure about uppercase/lowercase.
+		
+		find ~/Documents -iname "report.pdf"
+		
+		-iname ignores case.
+		
+		3. Search Entire System
+		sudo find / -name "filename"
+		
+		Example:
+		
+		sudo find / -name "libreoffice"
+		4. Find Only Files
+		find ~/Downloads -type f -name "*.pdf"
+		5. Find Only Folders
+		find ~/Projects -type d -name "Media"
+		6. Search by Extension
+		
+		Example:
+		find all MP4 videos.
+		
+		find ~/Videos -type f -name "*.mp4"
+		7. Search and Suppress Permission Errors
+		find / -name "filename" 2>/dev/null
+		8. Faster Alternative — locate
+		
+		Install:
+		
+		sudo apt install plocate -y
+		
+		Update database:
+		
+		sudo updatedb
+		
+		Then search:
+		
+		locate filename
+		
+		Much faster than find.
+		
+		9. Search for Partial Names
+		
+		Example:
+		
+		find ~/Documents -iname "*proposal*"
+		
+		Finds:
+		
+		proposal.docx
+		badilisha_proposal.pdf
+		finalproposal.txt
+		
+		etc.
+		
+		
+		
+		
 
 
 restart router		curl -X POST http://192.168.1.1/restart
@@ -42,163 +180,7 @@ delete old hotspot      nmcli connection delete Hotspot
 
 						
 						
-// setting up printers (epson)
-
-		# Install printing support packages (Most Debian-based systems use CUPS for printing)
-		
-			sudo apt install cups cups-client printer-driver-escpr system-config-printer -y
-		
-		# for scanner support
-		
-			sudo apt install sane-airscan sane-utils xsane -y
-		
-		# Enable and start the printing service
-		
-			sudo systemctl enable cups
-			sudo systemctl start cups
-		
-			# check status (expected output something like 'active (running)')
-			
-			systemctl status cups
-			
-		# add the user to the printer admin group
-		
-			sudo usermod -aG lpadmin $USER
-		
-		# Connect the Epson L3250
-		Option A — USB Setup (Recommended First)
-		Turn on the printer.
-		Connect it via USB.
-		Run:
-			lsusb
-		
-		(expected output a list of [Epson] printers)
-		
-		Option B — Wi-Fi Setup
-		
-		Before Linux can discover it:
-		
-		Connect the printer to the same Wi-Fi network as the laptop.
-		Use the Epson Smart Panel app from a phone if needed for initial Wi-Fi configuration.
-		
-		# After it joins Wi-Fi, continue below.
-		
-			Open the Linux printer manager
-		
-			In KDE:
-		
-			Open Settings
-			Go to Printers
-		
-			OR run:
-		
-				system-config-printer
-				
-			
-			# Add the printer
-			
-			Linux should automatically detect:
-			
-			Epson L3250 USB
-			OR
-			Epson L3250 Network Printer
-			
-			Click:
-			
-			Add
-			Select the printer
-			Continue
-			
-			If prompted for a driver:
-			
-			Choose:
-			“Epson ESC/P-R”
-			or “Recommended Driver”
-			
-			Finish setup.
-			
-			
-			# Print a test page
-			
-			After setup:
-			
-			Right-click the printer
-			Choose:
-			Properties
-			Print Test Page
-			
-			If the page prints, setup succeeded.
-			
-		
-		// Setup scanning
-		
-			test scanner detection (run):
-				scanimage -L
-		
-			test scanner detection (run):		
-			
-				scanimage -L
-		
-			(Expected output)
-		
-				device `epson...'
-		
-			For graphical scanning:
-			
-			run:		
-				xsane
-		
-			OR use KDE’s scan utility.
-			
-			
-			# Launch KDE’s scan utility from Terminal
-			
-			run:
-				skanpage
-			
-			If installed, the scanner app opens immediately.
-			
-			If not Installed, run:
-			
-				sudo apt install skanpage -y
-			
-			Then launch (run):
-				skanpage
-				
 						
-
-// orca screen reader 
-
-			# install orca
-			
-				sudo apt install orca -y
-						
-						
-						
-						
-// Libre office complete language toolkit (run):
-	
-			sudo apt install libreoffice libreoffice-help-en-us hunspell-en-us mythes-en-us hyphen-en-us -y
-			
-			
-			// complete professional toolkit, install this too:
-			
-				sudo apt install libreoffice-java-common default-jre -y
-				
-			// install speech support
-			
-				sudo apt install speech-dispatcher espeak-ng libreoffice-java-common -y
-				
-			// install accesibily intergration 
-			
-				sudo apt install libreoffice-gtk3 -y
-				
-			# libre office themes
-				
-				sudo apt install libreoffice-style-* -y
-				
-				
-				
 // setting up okular and OCR
 			
 			#install okular

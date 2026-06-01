@@ -1,0 +1,76 @@
+
+
+// forensic-style BitLocker password recovery workflow on Parrot OS using:
+	
+		John the Ripper
+		Hashcat
+	
+	BUT this should ONLY be done if:
+	
+		// Blair is authorized to access the data, the drive belongs to the organization, and recovery is legitimate.
+
+// This process does NOT “break” BitLocker directly.
+// It attempts to:
+
+		extract a password-verification hash,
+		then test possible passwords against it.
+
+// If the original password is: weak, reused, predictable, recovery MAY succeed.
+
+// If the password was strong: recovery may be computationally infeasible.
+
+
+PHASE 1 — Identify the BitLocker Partition
+
+	Run:
+
+		lsblk -f
+		
+		
+PHASE 2 — Install Required Tools
+
+// Update repositories
+
+		sudo apt update
+
+// Install John + forensic tools
+
+		sudo apt install john hashcat git python3-pip dislocker -y
+
+		
+PHASE 3 — Install bitlocker2john
+
+// bitlocker2john is sometimes bundled with John Jumbo.
+
+	# Check first (run):
+
+		which bitlocker2john
+		
+
+	# If Found, Good — continue.	
+	
+			# If NOT Found, Clone John Jumbo (run):
+
+				git clone https://github.com/openwall/john.git		
+
+			# Go into source (run):
+
+				cd john/src		
+
+			# Build it:
+
+				./configure make -sj$(nproc)
+
+			# Then:
+
+				cd ../run
+
+			# Check:
+
+				ls | grep bitlocker
+
+			# You should see:
+
+				bitlocker2john.py
+				
+	
