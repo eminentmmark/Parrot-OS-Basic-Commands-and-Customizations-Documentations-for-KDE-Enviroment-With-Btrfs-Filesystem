@@ -17,12 +17,21 @@
 				sudo apt install libreoffice-gtk3 -y
 
 
+// orca screen reader 
 
+			# install orca
+			
+				sudo apt install orca -y
+				
+				
+				
 // setting up printers (epson)
 
 		# Install printing support packages (Most Debian-based systems use CUPS for printing)
 		
+			sudo apt update
 			sudo apt install cups cups-client printer-driver-escpr system-config-printer -y
+			sudo apt install cups cups-client avahi-daemon printer-driver-escpr
 		
 		# for scanner support
 		
@@ -31,6 +40,7 @@
 		# Enable and start the printing service
 		
 			sudo systemctl enable cups
+			sudo systemctl enable avahi-daemon
 			sudo systemctl start cups
 		
 			# check status (expected output something like 'active (running)')
@@ -52,7 +62,7 @@
 		
 		Option B — Wi-Fi Setup
 		
-		Before Linux can discover it:
+		# Before Linux can discover it:
 		
 		Connect the printer to the same Wi-Fi network as the laptop.
 		Use the Epson Smart Panel app from a phone if needed for initial Wi-Fi configuration.
@@ -104,6 +114,34 @@
 			Print Test Page
 			
 			If the page prints, setup succeeded.
+			
+			
+		// setting up wireless printer 
+		
+		
+		# Find the printer's IP address (from the Epson Smart Panel app, router, or printer network status page) and test connectivity (run):
+		
+			ping <printer-ip>
+		
+		# Then add it manually in CUPS using:
+		
+			ipp://<printer-ip>/ipp/print
+		
+		or
+		
+			socket://<printer-ip>
+		
+		# see if linux discovers the printer automatically
+		
+			lpstat -e
+			
+			
+		# Useful diagnostic commands
+		
+			systemctl status cups
+			lpstat -e
+			lpstat -t
+			lpinfo -v
 			
 		
 		// Setup scanning
