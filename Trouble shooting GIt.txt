@@ -1,0 +1,55 @@
+
+
+
+// checking what email is registered on github for repo
+
+	git config --global user.email
+
+
+
+// setting/updating the email registered
+
+		git config --global user.email "your-github-eamil"
+		
+	# confirm if email is updated
+		
+		git config --global user.email
+
+
+// checking author email on the 7 recent commits
+
+	git log --format="%an <%ae>" -n 7
+
+
+// Install git-filter-repo
+
+		sudo apt update
+		sudo apt install git-filter-repo
+		
+	
+	# rewrite bad emails (to be used after backing up repo/dir)
+	
+		git filter-repo --email-callback '
+		return b"right-email@gmail.com" if email == b"wrong-email@XXX.com" else email
+		'
+		
+	# verify author emails for the last 10 commits
+	
+		git log --foramt="%an <%ae>" -n 10
+		
+	# checing current remote configuration
+	
+		git remote -v
+		
+	# adding/readding the Github remote using SSH
+	
+		git remote add origin git@github.com:<username>/<repo>.git
+		
+	# verify the remote config
+	
+		git remote -v
+		
+	# after the repo is connected to Github, push to rewrite history
+	
+		git push --force --all
+		git push --force --tags
