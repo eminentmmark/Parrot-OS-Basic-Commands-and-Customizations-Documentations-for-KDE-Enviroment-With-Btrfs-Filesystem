@@ -228,26 +228,32 @@ delete old hotspot      nmcli connection delete Hotspot
 				
 // setting up root for snapper configurations
 
-			//  verify u are using Btrfs filesystem (run):
+			// install packages (run):
 				
-				findmnt -no FSTYPE /
+				sudo apt install snapper btrfs-assistant
 				
-			# expected resutl Btrfs
+			# creat snapper configs run:
 			
-			run:
-				sudo apt install snapper btrfs-progs -y
-				
-			# create proper Btrfs subvolume:
-				
-				sudo btrfs subvolume create /.snapshots
-				
-			# delete folder is it exists
-			
-				sudo rm -rf /.snapshots
-				
-			# Create the Snapper Configuration (run):
-				
 				sudo snapper -c root create-config /
+				sudo snapper -c home create-config /home
+				
+			# verify configs
+				
+				sudo snapper list-configs
+				
+			# rebuild GRUB config
+			
+				sudo grub-mkconfig -o /boot/grub/grub.cfg
+				
+			// configure snapper via Btrfs Assistant as shown in the diagrams in the Btrfs Assistant folder.
+			
+			// Enabling triggering of snapper around apt-install, apt-upgrade and apt-remove
+			
+				ls /etc/apt/apt.conf.d/ | grep snapper
+				
+			# you should see 80snapper
+			
+			
 				
 			# This creates:
 				the root config,
