@@ -41,7 +41,7 @@
 	
 		git remote -v
 		
-	# adding/readding the Github remote using SSH
+	# if not configured or added, add/readd the Github remote using SSH
 	
 		git remote add origin git@github.com:<username>/<repo>.git
 		
