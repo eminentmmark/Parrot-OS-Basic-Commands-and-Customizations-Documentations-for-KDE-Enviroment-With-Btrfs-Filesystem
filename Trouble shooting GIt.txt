@@ -9,7 +9,7 @@
 
 // setting/updating the email registered
 
-		git config --global user.email "your-github-eamil"
+		git config --global user.email "your-github-email"
 		
 	# confirm if email is updated
 		
@@ -21,7 +21,7 @@
 	git log --format="%an <%ae>" -n 7
 
 
-// Install git-filter-repo
+// Install git-filter-repo for rewriting authors
 
 		sudo apt update
 		sudo apt install git-filter-repo

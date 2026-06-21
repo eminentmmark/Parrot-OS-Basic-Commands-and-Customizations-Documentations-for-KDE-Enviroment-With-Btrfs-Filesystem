@@ -12,55 +12,9 @@
 	
 	
 	
-	
-	
-	1. Install BitLocker Support
-	
-	Blair should install:
-	
-	sudo apt install dislocker -y
-	
-	Dislocker allows Linux to unlock BitLocker drives.
-	
-	2. Create Mount Folders
-	sudo mkdir -p /mnt/bitlocker
-	sudo mkdir -p /mnt/windows
-	3. Unlock the BitLocker Drive
-	Using the BitLocker Password
-	
-	Run:
-	
-	sudo dislocker -V /dev/sda1 -u -- /mnt/bitlocker
-	
-	Blair will be prompted for the BitLocker password.
-	
-	OR Using Recovery Key
-	sudo dislocker -V /dev/sda1 -pYOUR-RECOVERY-KEY -- /mnt/bitlocker
-	
-	Example:
-	
-	123456-123456-123456-123456-123456-123456-123456-123456
-	4. Mount the Unlocked Volume
-	
-	After successful unlock:
-	
-	sudo mount -o loop /mnt/bitlocker/dislocker-file /mnt/windows
-	
-	Now Blair can access files in:
-	
-	/mnt/windows
-	5. Open the Mounted Drive
-	
-	Using Dolphin:
-	
-	dolphin /mnt/windows
-	6. Unmount When Finished
-	sudo umount /mnt/windows
-	sudo umount /mnt/bitlocker
-	
-	
-	
-	
+// more navigation commands
+
+
 	the main command to find a specific file is:
 	
 	find

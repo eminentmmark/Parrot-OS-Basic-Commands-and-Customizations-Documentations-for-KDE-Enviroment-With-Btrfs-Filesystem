@@ -139,6 +139,34 @@ Btrfs filesystem
 		If timers appear, automatic updates are enabled.
 
 
+
+// setting up BitLocker
+
+	# install BitLocker support 
+		sudo apt install dislocker -y
+		
+	# create mount folders
+		sudo mkdir -p /mnt/bitlocker
+		sudo mkdir -p /mnt/windows
+		
+	# unlock the bitlocker drive/partition using the bitlocker password
+		sudo dislocker -v /dev/sda1 -u -- /mnt/bitlocker
+		
+	or using recovery key
+		sudo dislocker -v /dev/sda1 -pYOUR-RECOVERY-KEY -- /mnt/bitlocker
+		
+	# mount the drive/partition unlocked
+		sudo mount -o loop /mnt/bitlocker/dislocker-file /mnt/windows
+		
+	# open mounted drive using dolphin
+		dolphin /mnt/windows
+		
+	# unmounting when finished 
+		sudo umount /mnt/windows
+		sudo umount /mnt/bitlocker
+
+
+
 // setting up root for snapper configurations
 
 			// install packages (run):
