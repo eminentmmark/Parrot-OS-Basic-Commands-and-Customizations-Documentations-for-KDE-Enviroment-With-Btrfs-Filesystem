@@ -1,0 +1,6 @@
+
+
+// settiing up python-lsp-server
+
+	sudo apt update
+	sudo apt install python3-pylsp
