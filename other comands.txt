@@ -7,95 +7,16 @@
 	
 	
 	
+	
+	
+	
+	
+	
 // repairing broken Packages
 	
 	
 	
 	
-// more navigation commands
-
-
-	the main command to find a specific file is:
-	
-	find
-	1. Find a File by Name in a Directory
-	
-	Syntax:
-	
-	find /path/to/directory -name "filename"
-	
-	Example:
-	
-	find ~/Documents -name "report.pdf"
-	
-	This searches:
-	
-	inside Documents
-	
-	for exactly:
-		
-		report.pdf
-		2. Case-Insensitive Search
-		
-		Useful if Blair is unsure about uppercase/lowercase.
-		
-		find ~/Documents -iname "report.pdf"
-		
-		-iname ignores case.
-		
-		3. Search Entire System
-		sudo find / -name "filename"
-		
-		Example:
-		
-		sudo find / -name "libreoffice"
-		4. Find Only Files
-		find ~/Downloads -type f -name "*.pdf"
-		5. Find Only Folders
-		find ~/Projects -type d -name "Media"
-		6. Search by Extension
-		
-		Example:
-		find all MP4 videos.
-		
-		find ~/Videos -type f -name "*.mp4"
-		7. Search and Suppress Permission Errors
-		find / -name "filename" 2>/dev/null
-		8. Faster Alternative — locate
-		
-		Install:
-		
-		sudo apt install plocate -y
-		
-		Update database:
-		
-		sudo updatedb
-		
-		Then search:
-		
-		locate filename
-		
-		Much faster than find.
-		
-		9. Search for Partial Names
-		
-		Example:
-		
-		find ~/Documents -iname "*proposal*"
-		
-		Finds:
-		
-		proposal.docx
-		badilisha_proposal.pdf
-		finalproposal.txt
-		
-		etc.
-		
-		
-		
-		
-
-
 restart router		curl -X POST http://192.168.1.1/restart
 					curl -X POST http://192.168.0.1/restart
 	(linux base router)

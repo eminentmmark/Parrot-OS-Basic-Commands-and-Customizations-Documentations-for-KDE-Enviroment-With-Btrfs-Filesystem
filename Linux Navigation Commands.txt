@@ -3,18 +3,99 @@
 // basic linux (directory) navigation commands
 
 
-go into a dir		cd folder_name
+go into a dir			cd folder_name
 
-go back 1 dir		cd ..
+go back 1 dir			cd ..
 
-back 2 levels		cd ../..
+back 2 levels			cd ../..
 
-go to home dir		cd ~	or		cd
+go to home dir			cd ~	or		cd
 
 go to previous dir		cd -
 
-go to root dir		cd /
+go to root dir			cd /
 
-see where u r		pwd
+see where u r			pwd
 
-see contents		ls
+see contents			ls
+
+
+
+// complex navigation commands
+
+
+	// the main command to find a specific file is:
+	
+	# 1. Find a File by Name in a Directory
+	
+		find /path/to/directory -name "filename"
+	
+	Example:
+	
+		find ~/Documents -name "report.pdf"
+	
+	# This searches: inside Documents for exactly: report.pdf
+		
+		
+	# 2. Case-Insensitive Search (Useful if unsure about uppercase/lowercase.)
+		
+		find ~/Documents -iname "report.pdf"
+		
+	# -iname ignores case.
+		
+		
+	# 3. Search Entire System
+		
+		sudo find / -name "filename"
+		
+	Example:
+		
+		sudo find / -name "libreoffice"
+		
+	
+	# 4. Find Only Files
+		
+		find ~/Downloads -type f -name "*.pdf"
+		
+		
+	# 5. Find Only Folders
+		
+		find ~/Projects -type d -name "Media"
+		
+		
+	# 6. Search by Extension
+		
+	# Example: find all MP4 videos.
+		
+		find ~/Videos -type f -name "*.mp4"
+		
+		
+	# 7. Search and Suppress Permission Errors
+	
+		find / -name "filename" 2>/dev/null
+		
+		
+	# 8. Faster Alternative — locate
+		
+	# Install:
+		
+		sudo apt install plocate -y
+		
+	# Update database:
+		
+		sudo updatedb
+		
+	# Then search:
+		
+		locate <filename>
+		
+	# Much faster than find.
+	
+		
+	# 9. Search for Partial Names
+		
+	# Example:
+		
+		find ~/Documents -iname "*proposal*"
+		
+	# Finds: proposal.docx, badilisha_proposal.pdf, finalproposal.txt etc.
