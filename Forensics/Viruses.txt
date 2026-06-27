@@ -1,0 +1,55 @@
+
+
+
+// scanning for and cleaning viruses in directories
+
+	# install clamAV
+	
+		sudo apt install clamav
+		
+	# update virus definition
+		
+		sudo freshclam
+			
+	# once in the desired directory, run:
+	
+		sudo clamscan -r -v --infected --remove=yes
+		
+		
+		
+
+// detecting rootkits using chkrootkit (malicious software that can hiding in the system)
+
+	# install chkrootkit
+	
+		sudo apt install chkrootkit
+		
+	# check for rootkits
+	
+		sudo chkrootkit
+		
+		
+		
+		
+// Rootkit Hunter (rkhunter), which is often considered more comprehensive than chkrootkit. checks for rootkits, backdoors, suspicious kernel modules, file permission anomalies, changes to important system libraries, hash mismatches against known-good files
+
+	#install rkhunter
+	
+		sudo apt update
+		sudo apt install rkhunter
+		
+	# update its data files
+	
+		sudo rkhunter --update
+		
+	# Update the file properties database (usually done after a fresh install or after trusted system updates):
+	
+		sudo rkhuner --propupd
+		
+	# run a system check
+	
+		sudo rkhuner --check
+		
+	or
+	
+		sudo rkhuner --check --skip-keypress
