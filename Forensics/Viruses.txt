@@ -44,12 +44,12 @@
 		
 	# Update the file properties database (usually done after a fresh install or after trusted system updates):
 	
-		sudo rkhuner --propupd
+		sudo rkhunter --propupd
 		
 	# run a system check
 	
-		sudo rkhuner --check
+		sudo rkhunter --check
 		
 	or
 	
-		sudo rkhuner --check --skip-keypress
+		sudo rkhunter --check --skip-keypress
