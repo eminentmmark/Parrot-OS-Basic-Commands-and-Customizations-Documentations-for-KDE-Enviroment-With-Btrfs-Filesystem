@@ -1,0 +1,32 @@
+
+
+//	setting up kate
+
+sudo apt update
+
+sudo apt install \
+kate \
+python3-pylsp \
+nodejs \
+npm \
+shellcheck
+
+sudo npm install -g \
+typescript \
+typescript-language-server \
+vscode-langservers-extracted \
+bash-language-server \
+prettier
+
+pip install \
+python-lsp-server \
+black \
+isort
+
+
+
+sudo apt install shellcheck
+
+sudo apt install shfmt
+
+sudo npm install -g bash-language-server

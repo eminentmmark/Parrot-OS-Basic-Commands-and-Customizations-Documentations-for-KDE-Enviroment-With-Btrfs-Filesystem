@@ -12,7 +12,91 @@
 	
 	
 	
-// repairing broken Packages
+// unmounting without dislocker
+
+sudo cryptsetup bitlkDump /dev/sdXN
+
+Replace sdXN with the BitLocker partition.
+
+If the metadata appears correctly, native support exists.
+
+Unlock it:
+
+sudo cryptsetup open --type bitlk /dev/sdXN bitlocker
+
+using either the password or recovery key.
+
+Then inspect the mapped device:
+
+lsblk
+
+You should see
+
+/dev/mapper/bitlocker
+3. Check the filesystem
+
+Determine its filesystem:
+
+sudo blkid /dev/mapper/bitlocker
+
+If it returns
+
+TYPE="ntfs"
+
+mount it with
+
+sudo mount -t ntfs3 /dev/mapper/bitlocker /mnt
+
+If ntfs3 is unavailable:
+
+sudo mount -t ntfs /dev/mapper/bitlocker /mnt
+4. If "bad superblock" appears
+
+That usually means the NTFS filesystem itself is inconsistent.
+
+Run
+
+sudo ntfsfix /dev/mapper/bitlocker
+
+Then try mounting again.
+
+# unmounting using cryptsetup
+
+If Tony unlocked the BitLocker partition using cryptsetup, he should close the mapped device, not just unmount the filesystem.
+
+Assuming he unlocked it like this:
+
+sudo cryptsetup open --type bitlk /dev/sdXN bitlocker
+
+the mapped device will be:
+
+/dev/mapper/bitlocker
+Step 1: Unmount the filesystem
+
+If it was mounted at /mnt:
+
+sudo umount /mnt
+
+Or if it was mounted elsewhere:
+
+mount | grep bitlocker
+
+This will show something like:
+
+/dev/mapper/bitlocker on /media/eminent/New Volume type ntfs3 (...)
+
+Then unmount using the mount point:
+
+sudo umount "/media/eminent/New Volume"
+
+If the path contains spaces, either quote it or escape the spaces:
+
+sudo umount /media/eminent/New\ Volume
+Step 2: Close the BitLocker mapping
+
+Once the filesystem is unmounted:
+
+sudo cryptsetup close bitlocker
 	
 	
 	

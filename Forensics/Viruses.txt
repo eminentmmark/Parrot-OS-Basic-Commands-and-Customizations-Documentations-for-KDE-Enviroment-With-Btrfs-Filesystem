@@ -1,6 +1,4 @@
 
-
-
 // scanning for and cleaning viruses in directories
 
 	# install clamAV
