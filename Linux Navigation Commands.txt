@@ -21,6 +21,12 @@ see contents			ls
 
 
 
+//	duplicating commands
+
+	cp -r <targets' path> <destination path>
+
+
+
 // complex navigation commands
 
 

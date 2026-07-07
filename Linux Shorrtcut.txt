@@ -17,3 +17,5 @@ clipboard		Meta+V
 shutdown menu		ctrl+alt+delete
 
 Sentence cASE		shift=f3
+
+multi desktop view		ctrl + W
