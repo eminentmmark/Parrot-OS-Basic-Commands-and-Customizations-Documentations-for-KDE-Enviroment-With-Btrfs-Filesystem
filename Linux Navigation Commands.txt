@@ -27,11 +27,11 @@ see contents			ls
 	
 	# Copying a dir's contents to an existing dir (add a '/' at the end of the target's path)
 	
-		cp -r <target's path>/ <destination path>
+		cp -r "target's path"/ <destination path>
 	
 	# For hidden files ( add '/.')
 	
-		cp -r <target's path>/. <destination path>
+		cp -r "target's path"/. <destination path>
 	
 	# Copying a dir with its contents wjhile preserving file attributes (-a)
 		
