@@ -23,11 +23,31 @@ see contents			ls
 
 //	duplicating commands
 
-	cp -r <targets' path> <destination path>
+		cp -r <targets' path> <destination path>
+	
+	# Copying a dir's contents to an existing dir (add a '/' at the end of the target's path)
+	
+		cp -r <target's path>/ <destination path>
+	
+	# For hidden files ( add '/.')
+	
+		cp -r <target's path>/. <destination path>
+	
+	# Copying a dir with its contents wjhile preserving file attributes (-a)
+		
+		cp -r -a <targets' path> <destinatiion path>
+	
+	# Propting for overrides (-i)
+	
+		cp -r -i <targets' path> <destinatiion path>
+	
+	# Preventing overwriting without prompting (-n)
+	
+		cp -r -n <targets' path> <destinatiion path>
 
 
 
-// complex navigation commands
+// complex navigation commands - search
 
 
 	// the main command to find a specific file is:
